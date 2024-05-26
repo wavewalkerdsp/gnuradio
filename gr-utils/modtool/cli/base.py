@@ -7,8 +7,6 @@
 #
 #
 """ Base CLI module """
-
-
 import os
 import sys
 import logging
@@ -110,6 +108,7 @@ def setup_cli_logger(logger):
     """ Sets up logger for CLI parsing """
     try:
         import colorama
+        colorama  # Make linters happy: uses colorama name, but does nothing
         stream_handler = ClickHandler()
         logger.addHandler(stream_handler)
     except ImportError:
@@ -142,6 +141,10 @@ def common_params(func):
     @click.option('-y', '--yes', is_flag=True,
                   help="Answer all questions with 'yes'. " +
                   "This can overwrite and delete your files, so be careful.")
+    @click.option('-n', '--no', is_flag=True,
+                  help="Answer all questions with 'no'.")
+    @click.option('-b', '--batch', is_flag=True, help="Assumes everything not explicitly enabled to be disabled. " +
+                  "Uses default settings for non-binary questions. Fails if required arguments are not specified.")
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         """ Decorator that wraps common options """
