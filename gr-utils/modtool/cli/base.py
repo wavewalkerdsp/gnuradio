@@ -137,8 +137,8 @@ def common_params(func):
     @click.option('--skip-grc', is_flag=True,
                   help="Don't do anything in the grc/ subdirectory.")
     @click.option('--scm-mode', type=click.Choice(['yes', 'no', 'auto']),
-                  default=gr.prefs().get_string('modtool', 'scm_mode', 'no'),
-                  help="Use source control management [ yes | no | auto ]).")
+                  default=gr.prefs().get_string('modtool', 'scm_mode', 'auto'),
+                  help="Use source control management [ yes | no | auto ]). Defaults to auto.")
     @click.option('-y', '--yes', is_flag=True,
                   help="Answer all questions with 'yes'. " +
                   "This can overwrite and delete your files, so be careful.")
