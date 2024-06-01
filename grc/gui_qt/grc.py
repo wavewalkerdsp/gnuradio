@@ -22,7 +22,7 @@ import logging
 import textwrap
 import os
 
-from qtpy import QtCore, QtWidgets, PYQT_VERSION, PYSIDE_VERSION
+from qtpy import QtCore, QtWidgets, QtGui, PYQT_VERSION, PYSIDE_VERSION
 
 # Custom modules
 from . import components
@@ -91,6 +91,7 @@ class Application(QtWidgets.QApplication):
         self.VariableEditor = components.VariableEditor()
         stopwatch.lap("variable_editor")
         self.VariableEditor.set_scene(self.MainWindow.currentFlowgraphScene)
+        self.VariableEditor.all_editor_actions.connect(self.MainWindow.handle_editor_action)
         self.MainWindow.ExampleBrowser.set_library(self.BlockLibrary)
 
         # Debug times
@@ -118,6 +119,7 @@ class Application(QtWidgets.QApplication):
             f"{('PyQt ' + PYQT_VERSION) if PYQT_VERSION else ('PySide ' + PYSIDE_VERSION)}\n"
             f"GUI preferences file: {self.qsettings.fileName()}\n"
             f"Block paths:\n\t{paths}\n"
+            f"Using {QtGui.QIcon.themeName()} icon theme\n"
         )
         log.info(textwrap.dedent(welcome))
 
