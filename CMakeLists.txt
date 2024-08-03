@@ -22,7 +22,7 @@ set(CMAKE_BUILD_TYPE
 ########################################################################
 # Make sure this version matches ${GR_CMAKE_MIN_VERSION} (a variable can't be
 # used here).
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.16)
 project(gnuradio CXX C)
 enable_testing()
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
@@ -46,8 +46,8 @@ include(GrComponent)
 # cmake-format: off
 SET(VERSION_MAJOR 3)
 SET(VERSION_API   10)
-SET(VERSION_ABI   10)
-SET(VERSION_PATCH 0)
+SET(VERSION_ABI   12)
+SET(VERSION_PATCH git)
 include(GrVersion) #setup version info
 # cmake-format: on
 

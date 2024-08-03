@@ -48,6 +48,7 @@ class BlockSearchBar(QLineEdit):
             self.parent.populate_tree(self.parent._block_tree)
         else:
             log.info(f"No block named {label}")
+            self.parent.reset()
 
 
 def get_items(model):
@@ -81,12 +82,6 @@ class LibraryView(QTreeView):
             self.parent().parent().app.WikiTab.setURL(
                 QUrl(prefix + label.replace(" ", "_"))
             )
-
-    def handle_clicked(self):
-        if self.isExpanded(self.currentIndex()):
-            self.collapse(self.currentIndex())
-        else:
-            self.expand(self.currentIndex())
 
     def contextMenuEvent(self, event):
         key = self.model().data(self.currentIndex(), Qt.UserRole)
@@ -138,8 +133,7 @@ class BlockLibrary(QDockWidget, base.Component):
         library.setDragDropMode(QAbstractItemView.DragOnly)
         # library.setColumnCount(1)
         library.setHeaderHidden(True)
-        # Expand categories with a single click
-        library.clicked.connect(library.handle_clicked)
+        # Expand categories with a single click is build in
         library.selectionModel().selectionChanged.connect(library.updateDocTab)
         # library.headerItem().setText(0, "Blocks")
         library.doubleClicked.connect(
@@ -172,7 +166,7 @@ class BlockLibrary(QDockWidget, base.Component):
         self.populate_tree(self._block_tree)
 
         completer = QCompleter(self._block_tree_flat.keys())
-        completer.setCompletionMode(QCompleter.InlineCompletion)
+        completer.setCompletionMode(QCompleter.PopupCompletion)
         completer.setCaseSensitivity(Qt.CaseInsensitive)
         completer.setFilterMode(Qt.MatchContains)
         self._search_bar.setCompleter(completer)
